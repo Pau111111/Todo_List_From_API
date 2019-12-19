@@ -1,19 +1,21 @@
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+
 //const path = require('path');
 
 module.exports = {
     //Path of the file to convert
-    entry: './src/assets/js/main.js',
+    entry: './src/index.js',
 
     //Path to the converted file
     output: {
-        path: __dirname + '/dist/assets/js',
-        filename: 'app.js'
+        path: __dirname + '/dist',
+        filename: 'bundle.js'
     },
     //Por for the webpack-dev-server (autocompile code)
     devServer: {
-        port: 5555
+        port: 8080
     },
     //This will contain the files that are not JS that you want to autoimport and compile into your project
     module: {
@@ -29,13 +31,35 @@ module.exports = {
                 }
             },
             {
+                test: /\.vue$/,
+                loader:'vue-loader'
+            },
+            {
                 test: /\.scss$/,
                 use: [
                     miniCssExtractPlugin.loader,
                     'css-loader',
                     'sass-loader'
                 ]
-            }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    miniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader",
+                        options: {
+                            minimize: true
+                        }
+                    }
+                ]
+            },
         ]
     },
     plugins: [
@@ -52,8 +76,9 @@ module.exports = {
                 // while for ./css/main.css the publicPath will be ../
                 return path.relative(path.dirname(resourcePath), context) + '/';
             },
-            filename: "../css/[name].css",
+            filename: "../dist/assets/css/[name].css",
             chunkFilename: "[id].css"
-        })
+        }),
+        new VueLoaderPlugin()
     ]
 }
