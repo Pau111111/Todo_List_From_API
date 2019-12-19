@@ -1,6 +1,6 @@
 <template>
   <div>
-      <form @submit="addTodo">
+      <form @submit.prevent="addTodo">
           <input type="text" v-model="title" name="title" placeholder="Add todo...">
           <input type="submit" value="Submit" class="btn">
       </form>
@@ -17,18 +17,21 @@ export default {
         }
     },
     methods: {
-        addTodo(e) {
+        addTodo() {
             /* PREVENT FORM RELOAD */
-            e.prenventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+            //e.preventDefault();
+            //e.stopPropagation();
+            //e.stopImmediatePropagation();
             const newTodo = {
                 id: uuid.v4(),
                 title: this.title,
                 completed: false
             }
+            console.log(newTodo);
             //Send up to parent
             this.$emit('add-todo', newTodo);
+
+            this.title = '';
         }
     }
 }

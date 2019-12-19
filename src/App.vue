@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header/>
-        <AddTodo v-on:add-Todo="addTodo"/>
+        <AddTodo v-on:add-todo="addTodo"/>
         <!-- Here we catch 'del-todo' that is created in "TodoItem.vue" -->
         <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
     </div>
@@ -10,6 +10,7 @@
 import Todos from './components/Todos.vue';
 import Header from './components/layouts/Header.vue';
 import AddTodo from './components/AddTodo.vue';
+import axios from 'axios';
 
 export default {
     name: 'app',
@@ -20,32 +21,23 @@ export default {
     },
     data(){
         return{
-            todos: [
-                {
-                    id: 1,
-                    title: "Todo One",
-                    completed: false
-                },
-                {
-                    id: 2,
-                    title: "Todo Two",
-                    completed: true
-                },
-                {
-                    id: 3,
-                    title: "Todo Three",
-                    completed: false
-                }
-            ]
+            todos: []
         }
     },
     methods: {
         deleteTodo(id){
+            console.log("deleteTodo");
             this.todos = this.todos.filter(todo => todo.id !== id);
         },
         addTodo(newTodo){
+            console.log("addTodo");
             this.todos = [...this.todos, newTodo];
         }
+    },
+    created(){
+            axios.get('https://jsonplaceholder.typicode.com/todos?')
+            .then(res => this.todos = res.data)
+            .catch(err => console.log(err));
     }
 }
 </script>
