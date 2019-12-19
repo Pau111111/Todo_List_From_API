@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <h1>TodoLists</h1>
+        <h1>TodoList</h1>
     </header>
 </template>
 <script>

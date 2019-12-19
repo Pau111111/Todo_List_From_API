@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import uuid from 'uuid';
+//import uuid from 'uuid';
 
 export default {
     name: "AddTodo",
@@ -23,7 +23,7 @@ export default {
             //e.stopPropagation();
             //e.stopImmediatePropagation();
             const newTodo = {
-                id: uuid.v4(),
+                //id: uuid.v4(), NOW WE USE AN API THAT PROVIDES AN ID, WE DON'T NEED TO GENERATE ONE HERE
                 title: this.title,
                 completed: false
             }
